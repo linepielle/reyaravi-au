@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One Text Away — AU</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: #f8f0ef;
+  color: #382e30;
+  font-family: Arial, sans-serif;
+}
+.page {
+  max-width: 850px;
+  margin: 35px auto;
+  padding: 20px;
+}
+.cover {
+  text-align: center;
+  padding: 35px 15px;
+  background: #eac7ca;
+  border-radius: 18px;
+}
+.cover small { letter-spacing: 4px; }
+.cover h1 {
+  font-family: Georgia, serif;
+  font-size: 45px;
+  font-style: italic;
+  margin: 20px 0 10px;
+}
+.cover p { font-size: 13px; }
+.chat {
+  max-width: 480px;
+  margin: 25px auto;
+  background: white;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px #00000010;
+}
+.header {
+  background: #fffafa;
+  border-bottom: 1px solid #eee1e1;
+  padding: 17px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.avatar {
+  background: #eac7ca;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: bold;
+}
+.status { font-size: 11px; color: #8c8888; margin-top: 4px; }
+.messages {
+  padding: 20px 15px;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.date {
+  align-self: center;
+  color: #999;
+  font-size: 11px;
+  margin-bottom: 10px;
+}
+.message { max-width: 85%; }
+.left { align-self: flex-start; }
+.right { align-self: flex-end; text-align: right; }
+.name { font-size: 10px; color: #999; margin: 0 5px 5px; }
+.bubble {
+  padding: 11px 13px;
+  border-radius: 14px;
+  background: #f0eded;
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+.right .bubble { background: #f4dfe2; }
+.time { font-size: 9px; color: #999; margin-top: 5px; }
+.choices {
+  border-top: 1px solid #eee1e1;
+  padding: 15px;
+}
+.choices p {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #a08083;
+}
+button {
+  width: 100%;
+  background: white;
+  border: 1px solid #e3c5c8;
+  border-radius: 10px;
+  padding: 12px;
+  margin: 5px 0;
+  text-align: left;
+  cursor: pointer;
+  color: #49383a;
+}
+button:hover { background: #f9e9eb; }
+.restart {
+  border: none;
+  color: #a05d66;
+  text-align: center;
+  font-size: 11px;
+}
+.footer {
+  text-align: center;
+  font-size: 10px;
+  color: #a18b8d;
+  letter-spacing: 2px;
+  margin: 25px;
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <section class="cover">
+    <small>AN INTERACTIVE AU</small>
+    <h1>one text away.</h1>
+    <p>some feelings are better left unsent.</p>
+  </section>
+
+  <section class="chat">
+    <header class="header">
+      <div class="avatar">RK</div>
+      <div>
+        <strong id="contact">Raka Pradipta</strong>
+        <div class="status">● online</div>
+      </div>
+    </header>
+
+    <div class="messages" id="messages"></div>
+
+    <div class="choices">
+      <p id="question">CHOOSE YOUR REPLY</p>
+      <div id="buttons"></div>
+      <button class="restart" onclick="showScene('start')">
+        ↻ Restart story
+      </button>
+    </div>
+  </section>
+
+  <div class="footer">MADE WITH LOVE ♡</div>
+</div>
+
+<script>
+const story = {
+  start: {
+    messages: [
+      ["left","Raka","Lo belum tidur?"],
+      ["right","Nara","Kenapa? Kangen?"],
+      ["left","Raka","Geer banget jadi orang."],
+      ["left","Raka","Tapi kalau iya, emangnya kenapa?"]
+    ],
+    choices: [
+      ["Gue juga kangen, bodoh.","sweet"],
+      ["Mimpi. Sana tidur.","cold"]
+    ]
+  },
+
+  sweet: {
+    messages: [
+      ["right","Nara","Gue juga kangen, bodoh."],
+      ["left","Raka","..."],
+      ["left","Raka","Besok ketemu gue, ya."],
+      ["right","Nara","Buat apa?"],
+      ["left","Raka","Mau bilang sesuatu. Langsung."]
+    ],
+    ending: "ENDING 01 — maybe this is the beginning."
+  },
+
+  cold: {
+    messages: [
+      ["right","Nara","Mimpi. Sana tidur."],
+      ["left","Raka","Iya, iya."],
+      ["left","Raka","Tapi serius, Nar. Gue mau ngomong sesuatu."],
+      ["right","Nara","Apaan?"]
+    ],
+    choices: [
+      ["Tanya sekarang.","ask"],
+      ["Suruh dia ngomong besok.","tomorrow"]
+    ]
+  },
+
+  ask: {
+    messages: [
+      ["left","Raka","Gue suka sama lo, Nar. Udah lama."],
+      ["right","Nara","Raka..."],
+      ["left","Raka","Lo nggak harus jawab sekarang."]
+    ],
+    ending: "ENDING 02 — a confession at 11:11 PM."
+  },
+
+  tomorrow: {
+    messages: [
+      ["right","Nara","Besok aja ngomongnya. Udah malem."],
+      ["left","Raka","Oke. Good night, Nara."],
+      ["right","Nara","Good night, Rak."]
+    ],
+    ending: "ENDING 03 — some words can wait."
+  }
+};
+
+function showScene(id) {
+  const scene = story[id];
+  const area = document.getElementById("messages");
+  const buttons = document.getElementById("buttons");
+
+  area.innerHTML = '<div class="date">TODAY · 11:11 PM</div>';
+  buttons.innerHTML = "";
+
+  scene.messages.forEach(msg => {
+    const row = document.createElement("div");
+    row.className = "message " + msg[0];
+
+    const name = document.createElement("div");
+    name.className = "name";
+    name.textContent = msg[1];
+
+    const bubble = document.createElement("div");
+    bubble.className = "bubble";
+    bubble.textContent = msg[2];
+
+    const time = document.createElement("div");
+    time.className = "time";
+    time.textContent = "11:11 PM";
+
+    row.append(name, bubble, time);
+    area.appendChild(row);
+  });
+
+  if (scene.ending) {
+    document.getElementById("question").textContent = "THE END";
+    const ending = document.createElement("p");
+    ending.textContent = scene.ending;
+    area.appendChild(ending);
+
+    addButton("↻ Baca lagi dari awal", "start");
+  } else {
+    document.getElementById("question").textContent =
+      "CHOOSE YOUR REPLY";
+
+    scene.choices.forEach(choice => {
+      addButton(choice[0], choice[1]);
+    });
+  }
+
+  function addButton(label, next) {
+    const button = document.createElement("button");
+    button.textContent = label;
+    button.onclick = () => showScene(next);
+    buttons.appendChild(button);
+  }
+}
+
+showScene("start");
+</script>
+</body>
+</html>
